@@ -1,0 +1,35 @@
+2016-04-09T22:29:22.249+0800 I NETWORK  [thread1] trying reconnect to 127.0.0.1:27001 (127.0.0.1) failed
+2016-04-09T22:29:22.250+0800 I NETWORK  [thread1] reconnect 127.0.0.1:27001 (127.0.0.1) ok
+> rs.initiate()
+{
+	"info2" : "no configuration specified. Using a default configuration for the set",
+	"me" : "vagrant:27001",
+	"ok" : 1
+}
+hw4:OTHER> use replication
+switched to db replication
+hw4:PRIMARY> db.foo.find()
+{ "_id" : ObjectId("57090474f6af5f12496426b5"), "x" : 0, "y" : 0.43845566876126485 }
+{ "_id" : ObjectId("57090474f6af5f12496426b6"), "x" : 1, "y" : 0.8907454596137802 }
+{ "_id" : ObjectId("57090474f6af5f12496426b7"), "x" : 2, "y" : 0.9373542964925008 }
+{ "_id" : ObjectId("57090474f6af5f12496426b8"), "x" : 3, "y" : 0.9976394766844029 }
+{ "_id" : ObjectId("57090474f6af5f12496426b9"), "x" : 4, "y" : 0.4362461191308029 }
+{ "_id" : ObjectId("57090474f6af5f12496426ba"), "x" : 5, "y" : 0.24068225456392678 }
+{ "_id" : ObjectId("57090474f6af5f12496426bb"), "x" : 6, "y" : 0.9460713278719856 }
+{ "_id" : ObjectId("57090474f6af5f12496426bc"), "x" : 7, "y" : 0.6255644037449849 }
+{ "_id" : ObjectId("57090474f6af5f12496426bd"), "x" : 8, "y" : 0.04088101144986456 }
+{ "_id" : ObjectId("57090474f6af5f12496426be"), "x" : 9, "y" : 0.8966700309140065 }
+{ "_id" : ObjectId("57090474f6af5f12496426bf"), "x" : 10, "y" : 0.41328979376426467 }
+{ "_id" : ObjectId("57090474f6af5f12496426c0"), "x" : 11, "y" : 0.24621133969815046 }
+{ "_id" : ObjectId("57090474f6af5f12496426c1"), "x" : 12, "y" : 0.6302796505240499 }
+{ "_id" : ObjectId("57090474f6af5f12496426c2"), "x" : 13, "y" : 0.30288521007652414 }
+{ "_id" : ObjectId("57090474f6af5f12496426c3"), "x" : 14, "y" : 0.9087693211914891 }
+{ "_id" : ObjectId("57090474f6af5f12496426c4"), "x" : 15, "y" : 0.6393669482020959 }
+{ "_id" : ObjectId("57090474f6af5f12496426c5"), "x" : 16, "y" : 0.18614723725625237 }
+{ "_id" : ObjectId("57090474f6af5f12496426c6"), "x" : 17, "y" : 0.701900782941165 }
+{ "_id" : ObjectId("57090474f6af5f12496426c7"), "x" : 18, "y" : 0.17237792935733331 }
+{ "_id" : ObjectId("57090474f6af5f12496426c8"), "x" : 19, "y" : 0.47632233616052333 }
+Type "it" for more
+
+hw4:PRIMARY> homework.b()
+5002

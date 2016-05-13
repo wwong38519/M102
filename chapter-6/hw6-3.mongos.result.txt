@@ -1,0 +1,69 @@
+mongos> sh.addShard('localhost:27020')
+{ "shardAdded" : "shard0001", "ok" : 1 }
+mongos> sh.status()
+--- Sharding Status ---
+  sharding version: {
+	"_id" : 1,
+	"minCompatibleVersion" : 5,
+	"currentVersion" : 6,
+	"clusterId" : ObjectId("571bb06b4223811419bf00fc")
+}
+  shards:
+	{  "_id" : "shard0000",  "host" : "localhost:27018" }
+	{  "_id" : "shard0001",  "host" : "localhost:27020" }
+  active mongoses:
+	"3.2.4" : 1
+  balancer:
+	Currently enabled:  yes
+	Currently running:  yes
+		Balancer lock taken at Sun Apr 24 2016 23:50:50 GMT+0800 (HKT) by vagrant:27017:1461432447:1931317589:Balancer:1385414639
+	Collections with active migrations:
+		week6.trades started at Sun Apr 24 2016 23:50:50 GMT+0800 (HKT)
+	Failed balancer rounds in last 5 attempts:  0
+	Migration Results for the last 24 hours:
+		1 : Success
+  databases:
+	{  "_id" : "pcat",  "primary" : "shard0000",  "partitioned" : false }
+	{  "_id" : "performance",  "primary" : "shard0000",  "partitioned" : false }
+	{  "_id" : "week6",  "primary" : "shard0000",  "partitioned" : true }
+} } on : shard0000 Timestamp(1, 0)
+		week6.trades
+			shard key: { "ticker" : 1, "time" : 1 }
+			unique: false
+			balancing: true
+			chunks:
+				shard0000	7
+				shard0001	1
+			{ "ticker" : { "$minKey" : 1 }, "time" : { "$minKey" : 1 } } -->> { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:08:19.035Z") } on : shard0001 Timestamp(2, 0)
+			{ "ticker" : "abcd", "time" : ISODate("2012-03-03T01:08:19.035Z") } -->> { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:16:38.072Z") } on : shard0000 Timestamp(2, 1)
+			{ "ticker" : "abcd", "time" : ISODate("2012-03-03T01:16:38.072Z") } -->> { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:24:57.119Z") } on : shard0000 Timestamp(1, 2)
+			{ "ticker" : "abcd", "time" : ISODate("2012-03-03T01:24:57.119Z") } -->> { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:33:16.159Z") } on : shard0000 Timestamp(1, 3)
+			{ "ticker" : "abcd", "time" : ISODate("2012-03-03T01:33:16.159Z") } -->> { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:41:35.197Z") } on : shard0000 Timestamp(1, 4)
+			{ "ticker" : "abcd", "time" : ISODate("2012-03-03T01:41:35.197Z") } -->> { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:49:54.250Z") } on : shard0000 Timestamp(1, 5)
+			{ "ticker" : "abcd", "time" : ISODate("2012-03-03T01:49:54.250Z") } -->> { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:58:14.023Z") } on : shard0000 Timestamp(1, 6)
+			{ "ticker" : "abcd", "time" : ISODate("2012-03-03T01:58:14.023Z") } -->> { "ticker" : { "$maxKey" : 1 }, "time" : { "$maxKey" : 1 } } on : shard0000 Timestamp(1, 7)
+
+
+mongos> homework.check1()
+db.getSisterDB("config").shards.count() :
+2
+There are 2 shards in the cluster
+as expected
+
+
+mongos> db.chunks.find( { ns:"week6.trades" }, {min:1,max:1,shard:1,_id:0} ).sort({min:1})
+{ "min" : { "ticker" : { "$minKey" : 1 }, "time" : { "$minKey" : 1 } }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:08:19.035Z") }, "shard" : "shard0001" }
+{ "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:08:19.035Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:16:38.072Z") }, "shard" : "shard0001" }
+{ "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:16:38.072Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:24:57.119Z") }, "shard" : "shard0001" }
+{ "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:24:57.119Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:33:16.159Z") }, "shard" : "shard0001" }
+{ "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:33:16.159Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:41:35.197Z") }, "shard" : "shard0000" }
+{ "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:41:35.197Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:49:54.250Z") }, "shard" : "shard0000" }
+{ "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:49:54.250Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:58:14.023Z") }, "shard" : "shard0000" }
+{ "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:58:14.023Z") }, "max" : { "ticker" : { "$maxKey" : 1 }, "time" : { "$maxKey" : 1 } }, "shard" : "shard0000" }
+
+mongos> db.chunks.aggregate( [  { $match : { ns : "week6.trades" } } ,   { $group : { _id : "$shard", n : { $sum : 1 } } } ] )
+{ "_id" : "shard0001", "n" : 4 }
+{ "_id" : "shard0000", "n" : 4 }
+
+mongos> homework.c()
+2

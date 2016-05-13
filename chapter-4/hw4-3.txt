@@ -1,0 +1,35 @@
+hw4:PRIMARY> rs.status()
+{
+	"set" : "hw4",
+	"date" : ISODate("2016-04-09T14:30:56.905Z"),
+	"myState" : 1,
+	"term" : NumberLong(1),
+	"heartbeatIntervalMillis" : NumberLong(2000),
+	"members" : [
+		{
+			"_id" : 0,
+			"name" : "vagrant:27001",
+			"health" : 1,
+			"state" : 1,
+			"stateStr" : "PRIMARY",
+			"uptime" : 100,
+			"optime" : {
+				"ts" : Timestamp(1460212172, 1),
+				"t" : NumberLong(1)
+			},
+			"optimeDate" : ISODate("2016-04-09T14:29:32Z"),
+			"infoMessage" : "could not find member to sync from",
+			"electionTime" : Timestamp(1460212171, 2),
+			"electionDate" : ISODate("2016-04-09T14:29:31Z"),
+			"configVersion" : 1,
+			"self" : true
+		}
+	],
+	"ok" : 1
+}
+hw4:PRIMARY> rs.add("vagrant:27002")
+{ "ok" : 1 }
+hw4:PRIMARY> rs.add("vagrant:27003")
+{ "ok" : 1 }
+hw4:PRIMARY> homework.c()
+5

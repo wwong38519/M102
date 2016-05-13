@@ -1,0 +1,14 @@
+# hw 3-1
+6
+
+# hw 3-2
+12
+
+# hw 3-3
+Q1 : 4
+Q2 : 4
+Q3 : Yes
+
+# hw 3-4
+Data compression
+Document level locking

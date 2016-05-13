@@ -1,0 +1,12 @@
+mkdir -p /home/vagrant/mongodb/M102/final_exam/configsvr
+
+/usr/bin/mongod --dbpath /home/vagrant/mongodb/M102/final_exam/configsvr --logpath /home/vagrant/mongodb/M102/final_exam/configsvr.log --port 27019 --fork --configsvr
+
+
+cd final_exam/question_8/gene_backup/gene_backup/
+mongorestore --port 27019 --drop config_server
+
+
+mongo localhost:27019/config
+db.chunks.find().sort({_id:1}).next().lastmodEpoch.getTimestamp().toUTCString().substr(20,6)
+//39:15

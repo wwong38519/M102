@@ -1,0 +1,41 @@
+
+mongo localhost:27019/config
+db.shards.find()
+{ "_id" : "s1", "host" : "s1/genome_svr1:27501,genome_svr2:27502,genome_svr2:27503" }
+{ "_id" : "s2", "host" : "s2/genome_svr4:27601,genome_svr5:27602,genome_svr5:27603" }
+
+db.shards.update({ "_id" : "s1"}, { "_id" : "s1", "host" : "localhost:27501" })
+db.shards.update({ "_id" : "s2"}, { "_id" : "s2", "host" : "localhost:27601" })
+
+db.shards.find()
+{ "_id" : "s1", "host" : "localhost:27501" }
+{ "_id" : "s2", "host" : "localhost:27601" }
+
+
+
+
+mkdir -p /home/vagrant/mongodb/M102/final_exam/s1
+mkdir -p /home/vagrant/mongodb/M102/final_exam/s2
+
+/usr/bin/mongod --dbpath /home/vagrant/mongodb/M102/final_exam/s1 --logpath /home/vagrant/mongodb/M102/final_exam/s1.log --port 27501 --fork --shardsvr
+
+/usr/bin/mongod --dbpath /home/vagrant/mongodb/M102/final_exam/s2 --logpath /home/vagrant/mongodb/M102/final_exam/s2.log --port 27601 --fork --shardsvr
+
+cd final_exam/question_8/gene_backup/gene_backup/
+mongorestore --port 27501 --drop s1
+mongorestore --port 27601 --drop s2
+
+
+
+
+/usr/bin/mongos --configdb localhost:27019 --logpath /home/vagrant/mongodb/M102/final_exam/mongos.log --fork
+
+mongo
+sh.addShard('localhost:27501')
+sh.addShard('localhost:27601')
+
+
+
+use snps
+var x = db.elegans.aggregate( [ { $match : { N2 : "T" } } , { $group : { _id:"$N2" , n : { $sum : 1 } } } ] ).next(); print( x.n )
+//47664

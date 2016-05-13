@@ -1,0 +1,12 @@
+#hw5-1
+7
+
+#hw5-2
+Add an arbiter.
+Add another data bearing node.
+
+#hw5-3
+None of the above.
+
+#hw5-4
+{"force" : true}

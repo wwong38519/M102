@@ -1,0 +1,25 @@
+/usr/bin/mongod --dbpath /home/vagrant/mongodb/M102/data --logpath /home/vagrant/mongodb/M102/logs/mongod.log --port 27017 --fork
+
+cd chapter_6_scalability/homework_6_1
+mongo --shell localhost/week6 week6.js
+
+homework.init()
+db.trades.stats()
+
+mkdir /home/vagrant/mongodb/M102/configsvr
+
+/usr/bin/mongod --dbpath /home/vagrant/mongodb/M102/data --logpath /home/vagrant/mongodb/M102/logs/shardsvr.log --port 27018 --fork --shardsvr
+
+/usr/bin/mongod --dbpath /home/vagrant/mongodb/M102/configsvr --logpath /home/vagrant/mongodb/M102/logs/configsvr.log --port 27019 --fork --configsvr
+
+/usr/bin/mongos --configdb localhost:27019 --fork
+
+sh.addShard('localhost:27018')
+
+cd chapter_6_scalability/homework_6_1
+mongo --shell localhost/week6 week6.js
+
+db.trades.find().pretty()
+db.trades.count()
+db.trades.stats()
+homework.a()

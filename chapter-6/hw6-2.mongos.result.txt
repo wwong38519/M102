@@ -1,0 +1,90 @@
+mongos> use week6
+switched to db week6
+mongos> db.trades.createIndex( { ticker : 1, time : 1 } )
+{
+	"raw" : {
+		"localhost:27018" : {
+			"createdCollectionAutomatically" : false,
+			"numIndexesBefore" : 1,
+			"numIndexesAfter" : 2,
+			"ok" : 1
+		}
+	},
+	"ok" : 1
+}
+
+
+mongos> sh.enableSharding('week6')
+{ "ok" : 1 }
+mongos> sh.shardCollection('week6.tardes', { ticker : 1, time : 1 })
+{ "collectionsharded" : "week6.tardes", "ok" : 1 }
+
+
+mongos> sh.shardCollection('week6.trades', { ticker : 1, time : 1 })
+{ "collectionsharded" : "week6.trades", "ok" : 1 }
+
+
+mongos> sh.status()
+--- Sharding Status ---
+  sharding version: {
+	"_id" : 1,
+	"minCompatibleVersion" : 5,
+	"currentVersion" : 6,
+	"clusterId" : ObjectId("571bb06b4223811419bf00fc")
+}
+  shards:
+	{  "_id" : "shard0000",  "host" : "localhost:27018" }
+  active mongoses:
+	"3.2.4" : 1
+  balancer:
+	Currently enabled:  yes
+	Currently running:  no
+	Failed balancer rounds in last 5 attempts:  0
+	Migration Results for the last 24 hours:
+		No recent migrations
+  databases:
+	{  "_id" : "pcat",  "primary" : "shard0000",  "partitioned" : false }
+	{  "_id" : "performance",  "primary" : "shard0000",  "partitioned" : false }
+	{  "_id" : "week6",  "primary" : "shard0000",  "partitioned" : true }
+d0000 Timestamp(1, 0)
+		week6.trades
+			shard key: { "ticker" : 1, "time" : 1 }
+			unique: false
+			balancing: true
+			chunks:
+				shard0000	8
+			{ "ticker" : { "$minKey" : 1 }, "time" : { "$minKey" : 1 } } -->> { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:08:19.035Z") } on : shard0000 Timestamp(1, 0)
+			{ "ticker" : "abcd", "time" : ISODate("2012-03-03T01:08:19.035Z") } -->> { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:16:38.072Z") } on : shard0000 Timestamp(1, 1)
+			{ "ticker" : "abcd", "time" : ISODate("2012-03-03T01:16:38.072Z") } -->> { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:24:57.119Z") } on : shard0000 Timestamp(1, 2)
+			{ "ticker" : "abcd", "time" : ISODate("2012-03-03T01:24:57.119Z") } -->> { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:33:16.159Z") } on : shard0000 Timestamp(1, 3)
+			{ "ticker" : "abcd", "time" : ISODate("2012-03-03T01:33:16.159Z") } -->> { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:41:35.197Z") } on : shard0000 Timestamp(1, 4)
+			{ "ticker" : "abcd", "time" : ISODate("2012-03-03T01:41:35.197Z") } -->> { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:49:54.250Z") } on : shard0000 Timestamp(1, 5)
+			{ "ticker" : "abcd", "time" : ISODate("2012-03-03T01:49:54.250Z") } -->> { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:58:14.023Z") } on : shard0000 Timestamp(1, 6)
+			{ "ticker" : "abcd", "time" : ISODate("2012-03-03T01:58:14.023Z") } -->> { "ticker" : { "$maxKey" : 1 }, "time" : { "$maxKey" : 1 } } on : shard0000 Timestamp(1, 7)
+
+mongos> use config
+switched to db config
+mongos> db.chunks.find()
+ObjectId("571cdf1d768d357d52321115") }
+{ "_id" : "week6.trades-ticker_MinKeytime_MinKey", "ns" : "week6.trades", "min" : { "ticker" : { "$minKey" : 1 }, "time" : { "$minKey" : 1 } }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:08:19.035Z") }, "shard" : "shard0000", "lastmod" : Timestamp(1, 0), "lastmodEpoch" : ObjectId("571ce068768d357d5232115b") }
+{ "_id" : "week6.trades-ticker_\"abcd\"time_new Date(1330736899035)", "ns" : "week6.trades", "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:08:19.035Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:16:38.072Z") }, "shard" : "shard0000", "lastmod" : Timestamp(1, 1), "lastmodEpoch" : ObjectId("571ce068768d357d5232115b") }
+{ "_id" : "week6.trades-ticker_\"abcd\"time_new Date(1330737398072)", "ns" : "week6.trades", "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:16:38.072Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:24:57.119Z") }, "shard" : "shard0000", "lastmod" : Timestamp(1, 2), "lastmodEpoch" : ObjectId("571ce068768d357d5232115b") }
+{ "_id" : "week6.trades-ticker_\"abcd\"time_new Date(1330737897119)", "ns" : "week6.trades", "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:24:57.119Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:33:16.159Z") }, "shard" : "shard0000", "lastmod" : Timestamp(1, 3), "lastmodEpoch" : ObjectId("571ce068768d357d5232115b") }
+{ "_id" : "week6.trades-ticker_\"abcd\"time_new Date(1330738396159)", "ns" : "week6.trades", "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:33:16.159Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:41:35.197Z") }, "shard" : "shard0000", "lastmod" : Timestamp(1, 4), "lastmodEpoch" : ObjectId("571ce068768d357d5232115b") }
+{ "_id" : "week6.trades-ticker_\"abcd\"time_new Date(1330738895197)", "ns" : "week6.trades", "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:41:35.197Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:49:54.250Z") }, "shard" : "shard0000", "lastmod" : Timestamp(1, 5), "lastmodEpoch" : ObjectId("571ce068768d357d5232115b") }
+{ "_id" : "week6.trades-ticker_\"abcd\"time_new Date(1330739394250)", "ns" : "week6.trades", "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:49:54.250Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:58:14.023Z") }, "shard" : "shard0000", "lastmod" : Timestamp(1, 6), "lastmodEpoch" : ObjectId("571ce068768d357d5232115b") }
+{ "_id" : "week6.trades-ticker_\"abcd\"time_new Date(1330739894023)", "ns" : "week6.trades", "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:58:14.023Z") }, "max" : { "ticker" : { "$maxKey" : 1 }, "time" : { "$maxKey" : 1 } }, "shard" : "shard0000", "lastmod" : Timestamp(1, 7), "lastmodEpoch" : ObjectId("571ce068768d357d5232115b") }
+
+
+mongos> db.chunks.find({}, {min:1,max:1,shard:1,_id:0,ns:1})
+{ "ns" : "week6.trades", "min" : { "ticker" : { "$minKey" : 1 }, "time" : { "$minKey" : 1 } }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:08:19.035Z") }, "shard" : "shard0000" }
+{ "ns" : "week6.trades", "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:08:19.035Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:16:38.072Z") }, "shard" : "shard0000" }
+{ "ns" : "week6.trades", "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:16:38.072Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:24:57.119Z") }, "shard" : "shard0000" }
+{ "ns" : "week6.trades", "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:24:57.119Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:33:16.159Z") }, "shard" : "shard0000" }
+{ "ns" : "week6.trades", "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:33:16.159Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:41:35.197Z") }, "shard" : "shard0000" }
+{ "ns" : "week6.trades", "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:41:35.197Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:49:54.250Z") }, "shard" : "shard0000" }
+{ "ns" : "week6.trades", "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:49:54.250Z") }, "max" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:58:14.023Z") }, "shard" : "shard0000" }
+{ "ns" : "week6.trades", "min" : { "ticker" : "abcd", "time" : ISODate("2012-03-03T01:58:14.023Z") }, "max" : { "ticker" : { "$maxKey" : 1 }, "time" : { "$maxKey" : 1 } }, "shard" : "shard0000" }
+
+mongos> homework.b()
+3

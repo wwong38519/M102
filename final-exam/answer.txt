@@ -1,0 +1,32 @@
+#final-question-1
+6
+
+#final-question-2
+MongoDB preserves the order of writes in a collection in its consistency model. In this problem, 27003's oplog was effectively a "fork" and to preserve write ordering a rollback was necessary during 27003's recovery phase.
+
+#final-question-3
+It contains 3 documents.
+
+#final-question-4
+233
+
+#final-question-5
+We can create an index to make the following query fast/faster: db.postings.find( { "comments.flagged" : true } )
+One way to assure people vote at most once per posting is to use this form of update: db.postings.update( { _id: . . . , voters:{$ne:'joe'} }, { $inc : {votes:1}, $push : {voters:'joe'} } );
+
+#final-question-6
+MongoDB supports atomic operations on individual documents.
+MongoDB has a data type for binary data.
+
+#final-question-7
+MongoDB supports reads from slaves/secondaries that are in remote locations.
+
+#final-question-8
+39:15
+
+#final-question-9
+47664
+
+#final-question-10
+2 shards are queried.
+8 documents are examined.

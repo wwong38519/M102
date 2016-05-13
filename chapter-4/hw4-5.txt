@@ -1,0 +1,155 @@
+hw4:SECONDARY> use local
+switched to db local
+hw4:SECONDARY> db.oplog.rs.find()
+{ "ts" : Timestamp(1460214591, 1), "t" : NumberLong(1), "h" : NumberLong("8708754525514383718"), "v" : 2, "op" : "n", "ns" : "", "o" : { "msg" : "Reconfig set", "version" : 3 } }
+{ "ts" : Timestamp(1460215778, 2), "t" : NumberLong(2), "h" : NumberLong("7942760392882134817"), "v" : 2, "op" : "n", "ns" : "", "o" : { "msg" : "new primary" } }
+{ "ts" : Timestamp(1460215934, 1), "t" : NumberLong(2), "h" : NumberLong("2848903065356208503"), "v" : 2, "op" : "n", "ns" : "", "o" : { "msg" : "Reconfig set", "version" : 4 } }
+hw4:SECONDARY>
+hw4:SECONDARY> db.oplog.rs.stats()
+{
+	"ns" : "local.oplog.rs",
+	"count" : 3,
+	"size" : 310,
+	"avgObjSize" : 103,
+	"storageSize" : 36864,
+	"capped" : true,
+	"max" : -1,
+	"maxSize" : 52428800,
+	"sleepCount" : 0,
+	"sleepMS" : 0,
+	"wiredTiger" : {
+		"metadata" : {
+			"formatVersion" : 1,
+			"oplogKeyExtractionVersion" : 1
+		},
+		"creationString" : "allocation_size=4KB,app_metadata=(formatVersion=1,oplogKeyExtractionVersion=1),block_allocation=best,block_compressor=snappy,cache_resident=0,checksum=on,colgroups=,collator=,columns=,dictionary=0,encryption=(keyid=,name=),exclusive=0,extractor=,format=btree,huffman_key=,huffman_value=,immutable=0,internal_item_max=0,internal_key_max=0,internal_key_truncate=,internal_page_max=4KB,key_format=q,key_gap=10,leaf_item_max=0,leaf_key_max=0,leaf_page_max=32KB,leaf_value_max=64MB,log=(enabled=),lsm=(auto_throttle=,bloom=,bloom_bit_count=16,bloom_config=,bloom_hash_count=8,bloom_oldest=0,chunk_count_limit=0,chunk_max=5GB,chunk_size=10MB,merge_max=15,merge_min=0),memory_page_max=10m,os_cache_dirty_max=0,os_cache_max=0,prefix_compression=0,prefix_compression_min=4,source=,split_deepen_min_child=0,split_deepen_per_child=0,split_pct=90,type=file,value_format=u",
+		"type" : "file",
+		"uri" : "statistics:table:collection-6--8834048712270430017",
+		"LSM" : {
+			"bloom filters in the LSM tree" : 0,
+			"bloom filter false positives" : 0,
+			"bloom filter hits" : 0,
+			"bloom filter misses" : 0,
+			"bloom filter pages evicted from cache" : 0,
+			"bloom filter pages read into cache" : 0,
+			"total size of bloom filters" : 0,
+			"sleep for LSM checkpoint throttle" : 0,
+			"chunks in the LSM tree" : 0,
+			"highest merge generation in the LSM tree" : 0,
+			"queries that could have benefited from a Bloom filter that did not exist" : 0,
+			"sleep for LSM merge throttle" : 0
+		},
+		"block-manager" : {
+			"file allocation unit size" : 4096,
+			"blocks allocated" : 11,
+			"checkpoint size" : 16384,
+			"allocations requiring file extension" : 8,
+			"blocks freed" : 2,
+			"file magic number" : 120897,
+			"file major version number" : 1,
+			"minor version number" : 0,
+			"file bytes available for reuse" : 16384,
+			"file size in bytes" : 36864
+		},
+		"btree" : {
+			"btree checkpoint generation" : 38,
+			"column-store variable-size deleted values" : 0,
+			"column-store fixed-size leaf pages" : 0,
+			"column-store internal pages" : 0,
+			"column-store variable-size RLE encoded values" : 0,
+			"column-store variable-size leaf pages" : 0,
+			"pages rewritten by compaction" : 0,
+			"number of key/value pairs" : 0,
+			"fixed-record size" : 0,
+			"maximum tree depth" : 3,
+			"maximum internal page key size" : 368,
+			"maximum internal page size" : 4096,
+			"maximum leaf page key size" : 2867,
+			"maximum leaf page size" : 32768,
+			"maximum leaf page value size" : 67108864,
+			"overflow pages" : 0,
+			"row-store internal pages" : 0,
+			"row-store leaf pages" : 0
+		},
+		"cache" : {
+			"bytes read into cache" : 0,
+			"bytes written from cache" : 965,
+			"checkpoint blocked page eviction" : 0,
+			"unmodified pages evicted" : 0,
+			"page split during eviction deepened the tree" : 0,
+			"modified pages evicted" : 0,
+			"data source pages selected for eviction unable to be evicted" : 0,
+			"hazard pointer blocked page eviction" : 0,
+			"internal pages evicted" : 0,
+			"internal pages split during eviction" : 0,
+			"leaf pages split during eviction" : 0,
+			"in-memory page splits" : 0,
+			"in-memory page passed criteria to be split" : 0,
+			"overflow values cached in memory" : 0,
+			"pages read into cache" : 0,
+			"pages read into cache requiring lookaside entries" : 0,
+			"overflow pages read into cache" : 0,
+			"pages written from cache" : 6,
+			"page written requiring lookaside records" : 0,
+			"pages written requiring in-memory restoration" : 0
+		},
+		"compression" : {
+			"raw compression call failed, no additional data available" : 0,
+			"raw compression call failed, additional data available" : 0,
+			"raw compression call succeeded" : 0,
+			"compressed pages read" : 0,
+			"compressed pages written" : 0,
+			"page written failed to compress" : 0,
+			"page written was too small to compress" : 6
+		},
+		"cursor" : {
+			"create calls" : 4,
+			"insert calls" : 3,
+			"bulk-loaded cursor-insert calls" : 0,
+			"cursor-insert key and value bytes inserted" : 337,
+			"next calls" : 6,
+			"prev calls" : 2,
+			"remove calls" : 0,
+			"cursor-remove key bytes removed" : 0,
+			"reset calls" : 8,
+			"restarted searches" : 0,
+			"search calls" : 0,
+			"search near calls" : 0,
+			"truncate calls" : 0,
+			"update calls" : 0,
+			"cursor-update value bytes updated" : 0
+		},
+		"reconciliation" : {
+			"dictionary matches" : 0,
+			"internal page multi-block writes" : 0,
+			"leaf page multi-block writes" : 0,
+			"maximum blocks required for a page" : 0,
+			"internal-page overflow keys" : 0,
+			"leaf-page overflow keys" : 0,
+			"overflow values written" : 0,
+			"pages deleted" : 0,
+			"fast-path pages deleted" : 0,
+			"page checksum matches" : 0,
+			"page reconciliation calls" : 6,
+			"page reconciliation calls for eviction" : 0,
+			"leaf page key bytes discarded using prefix compression" : 0,
+			"internal page key bytes discarded using suffix compression" : 0
+		},
+		"session" : {
+			"object compaction" : 0,
+			"open cursor count" : 2
+		},
+		"transaction" : {
+			"update conflicts" : 0
+		}
+	},
+	"nindexes" : 0,
+	"totalIndexSize" : 0,
+	"indexSizes" : {
+
+	},
+	"ok" : 1
+}
+
+hw4:SECONDARY> db.oplog.rs.find( { } ).sort( { $natural : 1 } ).limit( 1 ).next( ).o.msg[0]
+R

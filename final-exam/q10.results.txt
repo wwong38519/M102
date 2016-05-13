@@ -1,0 +1,317 @@
+MongoDB shell version: 3.2.4
+connecting to: test
+switched to db snps
+{
+	"queryPlanner" : {
+		"mongosPlannerVersion" : 1,
+		"winningPlan" : {
+			"stage" : "SHARD_MERGE",
+			"shards" : [
+				{
+					"shardName" : "s1",
+					"connectionString" : "localhost:27501",
+					"serverInfo" : {
+						"host" : "vagrant",
+						"port" : 27501,
+						"version" : "3.2.4",
+						"gitVersion" : "e2ee9ffcf9f5a94fad76802e28cc978718bb7a30"
+					},
+					"plannerVersion" : 1,
+					"namespace" : "snps.elegans",
+					"indexFilterSet" : false,
+					"parsedQuery" : {
+						"$and" : [
+							{
+								"N2" : {
+									"$eq" : "T"
+								}
+							},
+							{
+								"mutant" : {
+									"$eq" : "A"
+								}
+							}
+						]
+					},
+					"winningPlan" : {
+						"stage" : "LIMIT",
+						"limitAmount" : 5,
+						"inputStage" : {
+							"stage" : "SHARDING_FILTER",
+							"inputStage" : {
+								"stage" : "FETCH",
+								"inputStage" : {
+									"stage" : "IXSCAN",
+									"keyPattern" : {
+										"N2" : 1,
+										"mutant" : 1
+									},
+									"indexName" : "N2_1_mutant_1",
+									"isMultiKey" : false,
+									"isUnique" : false,
+									"isSparse" : false,
+									"isPartial" : false,
+									"indexVersion" : 1,
+									"direction" : "forward",
+									"indexBounds" : {
+										"N2" : [
+											"[\"T\", \"T\"]"
+										],
+										"mutant" : [
+											"[\"A\", \"A\"]"
+										]
+									}
+								}
+							}
+						}
+					},
+					"rejectedPlans" : [ ]
+				},
+				{
+					"shardName" : "s2",
+					"connectionString" : "localhost:27601",
+					"serverInfo" : {
+						"host" : "vagrant",
+						"port" : 27601,
+						"version" : "3.2.4",
+						"gitVersion" : "e2ee9ffcf9f5a94fad76802e28cc978718bb7a30"
+					},
+					"plannerVersion" : 1,
+					"namespace" : "snps.elegans",
+					"indexFilterSet" : false,
+					"parsedQuery" : {
+						"$and" : [
+							{
+								"N2" : {
+									"$eq" : "T"
+								}
+							},
+							{
+								"mutant" : {
+									"$eq" : "A"
+								}
+							}
+						]
+					},
+					"winningPlan" : {
+						"stage" : "LIMIT",
+						"limitAmount" : 5,
+						"inputStage" : {
+							"stage" : "SHARDING_FILTER",
+							"inputStage" : {
+								"stage" : "FETCH",
+								"inputStage" : {
+									"stage" : "IXSCAN",
+									"keyPattern" : {
+										"N2" : 1,
+										"mutant" : 1
+									},
+									"indexName" : "N2_1_mutant_1",
+									"isMultiKey" : false,
+									"isUnique" : false,
+									"isSparse" : false,
+									"isPartial" : false,
+									"indexVersion" : 1,
+									"direction" : "forward",
+									"indexBounds" : {
+										"N2" : [
+											"[\"T\", \"T\"]"
+										],
+										"mutant" : [
+											"[\"A\", \"A\"]"
+										]
+									}
+								}
+							}
+						}
+					},
+					"rejectedPlans" : [ ]
+				}
+			]
+		}
+	},
+	"executionStats" : {
+		"nReturned" : 7,
+		"executionTimeMillis" : 1,
+		"totalKeysExamined" : 8,
+		"totalDocsExamined" : 8,
+		"executionStages" : {
+			"stage" : "SHARD_MERGE",
+			"nReturned" : 7,
+			"executionTimeMillis" : 1,
+			"totalKeysExamined" : 8,
+			"totalDocsExamined" : 8,
+			"totalChildMillis" : NumberLong(0),
+			"shards" : [
+				{
+					"shardName" : "s1",
+					"executionSuccess" : true,
+					"executionStages" : {
+						"stage" : "LIMIT",
+						"nReturned" : 5,
+						"executionTimeMillisEstimate" : 0,
+						"works" : 7,
+						"advanced" : 5,
+						"needTime" : 1,
+						"needYield" : 0,
+						"saveState" : 0,
+						"restoreState" : 0,
+						"isEOF" : 1,
+						"invalidates" : 0,
+						"limitAmount" : 5,
+						"inputStage" : {
+							"stage" : "SHARDING_FILTER",
+							"nReturned" : 5,
+							"executionTimeMillisEstimate" : 0,
+							"works" : 6,
+							"advanced" : 5,
+							"needTime" : 0,
+							"needYield" : 0,
+							"saveState" : 0,
+							"restoreState" : 0,
+							"isEOF" : 0,
+							"invalidates" : 0,
+							"chunkSkips" : 1,
+							"inputStage" : {
+								"stage" : "FETCH",
+								"nReturned" : 6,
+								"executionTimeMillisEstimate" : 0,
+								"works" : 6,
+								"advanced" : 6,
+								"needTime" : 0,
+								"needYield" : 0,
+								"saveState" : 0,
+								"restoreState" : 0,
+								"isEOF" : 0,
+								"invalidates" : 0,
+								"docsExamined" : 6,
+								"alreadyHasObj" : 0,
+								"inputStage" : {
+									"stage" : "IXSCAN",
+									"nReturned" : 6,
+									"executionTimeMillisEstimate" : 0,
+									"works" : 6,
+									"advanced" : 6,
+									"needTime" : 0,
+									"needYield" : 0,
+									"saveState" : 0,
+									"restoreState" : 0,
+									"isEOF" : 0,
+									"invalidates" : 0,
+									"keyPattern" : {
+										"N2" : 1,
+										"mutant" : 1
+									},
+									"indexName" : "N2_1_mutant_1",
+									"isMultiKey" : false,
+									"isUnique" : false,
+									"isSparse" : false,
+									"isPartial" : false,
+									"indexVersion" : 1,
+									"direction" : "forward",
+									"indexBounds" : {
+										"N2" : [
+											"[\"T\", \"T\"]"
+										],
+										"mutant" : [
+											"[\"A\", \"A\"]"
+										]
+									},
+									"keysExamined" : 6,
+									"dupsTested" : 0,
+									"dupsDropped" : 0,
+									"seenInvalidated" : 0
+								}
+							}
+						}
+					}
+				},
+				{
+					"shardName" : "s2",
+					"executionSuccess" : true,
+					"executionStages" : {
+						"stage" : "LIMIT",
+						"nReturned" : 2,
+						"executionTimeMillisEstimate" : 0,
+						"works" : 3,
+						"advanced" : 2,
+						"needTime" : 0,
+						"needYield" : 0,
+						"saveState" : 0,
+						"restoreState" : 0,
+						"isEOF" : 1,
+						"invalidates" : 0,
+						"limitAmount" : 5,
+						"inputStage" : {
+							"stage" : "SHARDING_FILTER",
+							"nReturned" : 2,
+							"executionTimeMillisEstimate" : 0,
+							"works" : 3,
+							"advanced" : 2,
+							"needTime" : 0,
+							"needYield" : 0,
+							"saveState" : 0,
+							"restoreState" : 0,
+							"isEOF" : 1,
+							"invalidates" : 0,
+							"chunkSkips" : 0,
+							"inputStage" : {
+								"stage" : "FETCH",
+								"nReturned" : 2,
+								"executionTimeMillisEstimate" : 0,
+								"works" : 3,
+								"advanced" : 2,
+								"needTime" : 0,
+								"needYield" : 0,
+								"saveState" : 0,
+								"restoreState" : 0,
+								"isEOF" : 1,
+								"invalidates" : 0,
+								"docsExamined" : 2,
+								"alreadyHasObj" : 0,
+								"inputStage" : {
+									"stage" : "IXSCAN",
+									"nReturned" : 2,
+									"executionTimeMillisEstimate" : 0,
+									"works" : 3,
+									"advanced" : 2,
+									"needTime" : 0,
+									"needYield" : 0,
+									"saveState" : 0,
+									"restoreState" : 0,
+									"isEOF" : 1,
+									"invalidates" : 0,
+									"keyPattern" : {
+										"N2" : 1,
+										"mutant" : 1
+									},
+									"indexName" : "N2_1_mutant_1",
+									"isMultiKey" : false,
+									"isUnique" : false,
+									"isSparse" : false,
+									"isPartial" : false,
+									"indexVersion" : 1,
+									"direction" : "forward",
+									"indexBounds" : {
+										"N2" : [
+											"[\"T\", \"T\"]"
+										],
+										"mutant" : [
+											"[\"A\", \"A\"]"
+										]
+									},
+									"keysExamined" : 2,
+									"dupsTested" : 0,
+									"dupsDropped" : 0,
+									"seenInvalidated" : 0
+								}
+							}
+						}
+					}
+				}
+			]
+		}
+	},
+	"ok" : 1
+}
+bye
